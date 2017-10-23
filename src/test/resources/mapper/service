@@ -1,0 +1,47 @@
+package ${package}.service;
+
+import ${package}.pojo.${pojo};
+import ${package}.dao.${pojo}Dao;
+import ${package}.param.${pojo}QueryParam;
+import cn.com.inetcop.prfcloud.base.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ${pojo}Service {
+
+    @Autowired
+    private ${pojo}Dao ${pojoLow}Dao;
+
+
+    public String create(${pojo} ${pojoLow}){
+        //may be need verity ${pojoLow} properties
+        ${pojoLow}Dao.insert(${pojoLow});
+        return ${pojoLow}.getId();
+    }
+
+
+    public void delete(String id){
+        //may be need verity some privilege key
+        ${pojoLow}Dao.delete(id);
+    }
+
+    public void update(${pojo} ${pojoLow}){
+        ${pojoLow}Dao.update(${pojoLow});
+    }
+
+
+    public Page<${pojo}> query(${pojo}QueryParam param){
+        Page<${pojo}> page = new Page<${pojo}>();
+        page.setPageNo(param.getPageNo());
+        page.setPageSize(param.getPageSize());
+        page.setTotalNum(${pojoLow}Dao.queryCount(param));
+        if(page.isOverCount()){
+            int pageNo = page.getMaxPageNo();
+            page.setPageNo(pageNo);
+        }
+        page.setResults(${pojoLow}Dao.query(param));
+        return page;
+    }
+
+}

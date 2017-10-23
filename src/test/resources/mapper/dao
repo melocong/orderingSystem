@@ -1,0 +1,19 @@
+package ${package}.dao;
+
+import ${package}.pojo.${pojo};
+import ${package}.param.${pojo}QueryParam;
+import java.util.List;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ${pojo}Dao {
+    void insert(${pojo} ${pojoLow});
+
+    void update(${pojo} ${pojoLow});
+
+    void delete(String id);
+
+    List<${pojo}>query(${pojo}QueryParam param);
+
+    long queryCount(${pojo}QueryParam param);
+}

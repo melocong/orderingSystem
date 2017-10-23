@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package}.dao.${pojo}Dao">
+    <resultMap id="m" type="${package}.pojo.${pojo}">
+        ${result}
+    </resultMap>
+    <insert id="insert" parameterType="${package}.pojo.${pojo}">
+        INSERT INTO ${table}
+        (<include refid="column"/>)
+        VALUES (
+        ${values}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="${package}.pojo.${pojo}">
+        UPDATE ${table}
+        SET
+        ${updateColumn}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="${package}.param.${pojo}QueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM ${table}
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="${package}.param.${pojo}QueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM ${table}
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM ${table} WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        ${tc}
+    </sql>
+
+    <sql id="columnTable">
+        ${tci}
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>
