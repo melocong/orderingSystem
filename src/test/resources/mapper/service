@@ -3,7 +3,7 @@ package ${package}.service;
 import ${package}.pojo.${pojo};
 import ${package}.dao.${pojo}Dao;
 import ${package}.param.${pojo}QueryParam;
-import cn.com.inetcop.prfcloud.base.Page;
+import com.orderingSystem.base.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

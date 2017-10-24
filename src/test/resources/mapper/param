@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import cn.com.inetcop.prfcloud.param.SqlQueryParam;
+import com.orderingSystem.param.SqlQueryParam;
 
 @Getter
 @Setter

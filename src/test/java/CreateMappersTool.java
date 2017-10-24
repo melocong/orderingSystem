@@ -25,7 +25,7 @@ public class CreateMappersTool {
 
     private final static String BASE = System.getProperty("user.dir");
     private final static String JAVA = BASE + "/src/main/java/";
-    private final static String MAPPERS = BASE + "/src/main/resources/mappers/";
+    private final static String MAPPERS = BASE + "/src/main/resources/com/orderingSystem/mappers/";
     /**
      * @param args
      * @throws IOException
@@ -82,16 +82,16 @@ public class CreateMappersTool {
         populateMappers(tableName, packageName, fieldColumns, MAPPERS + pojoNameLow + "Mappers.xml");
         String pojoName = fieldToGsProperty(tableName);
         if (ignore == null || !ignore.contains("pojo")) {
-            populatePojo(tableName, fieldColumns, packageName, JAVA + dir + "\\pojo\\" + pojoName + ".java");
+            populatePojo(tableName, fieldColumns, packageName, JAVA + dir + "/pojo/" + pojoName + ".java");
         }
         if (ignore == null || !ignore.contains("param")) {
-            populateParam(tableName, packageName, JAVA + dir + "\\param\\" + pojoName + "QueryParam.java");
+            populateParam(tableName, packageName, JAVA + dir + "/param/" + pojoName + "QueryParam.java");
         }
         if (ignore == null || !ignore.contains("dao")) {
-            populateDao(tableName, packageName, JAVA + dir + "\\dao\\" + pojoName + "Dao.java");
+            populateDao(tableName, packageName, JAVA + dir + "/dao/" + pojoName + "Dao.java");
         }
         if (ignore == null || !ignore.contains("service")) {
-            populateService(tableName, packageName, JAVA + dir + "\\service\\" + pojoName + "Service.java");
+            populateService(tableName, packageName, JAVA + dir + "/service/" + pojoName + "Service.java");
         }
 
         connection.close();
