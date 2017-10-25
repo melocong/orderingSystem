@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderingSystem.dao.CustomerDao">
+    <resultMap id="m" type="com.orderingSystem.pojo.Customer">
+        <id property="id" column="ID" javaType="String" jdbcType="BIGINT"/>
+<result property="customerPhone" column="CUSTOMER_PHONE" javaType="String" jdbcType="VARCHAR"/>
+<result property="customerName" column="CUSTOMER_NAME" javaType="String" jdbcType="VARCHAR"/>
+<result property="customerAddress" column="CUSTOMER_ADDRESS" javaType="String" jdbcType="VARCHAR"/>
+<result property="customerRtn" column="CUSTOMER_RTN" javaType="Character" jdbcType="CHAR"/>
+<result property="createTime" column="CREATE_TIME" javaType="Long" jdbcType="BIGINT"/>
+<result property="updateTime" column="UPDATE_TIME" javaType="Long" jdbcType="BIGINT"/>
+
+    </resultMap>
+    <insert id="insert" parameterType="com.orderingSystem.pojo.Customer">
+        INSERT INTO CUSTOMER
+        (<include refid="column"/>)
+        VALUES (
+        #{customerPhone,jdbcType=VARCHAR},
+#{customerName,jdbcType=VARCHAR},
+#{customerAddress,jdbcType=VARCHAR},
+#{customerRtn,jdbcType=CHAR},
+#{createTime,jdbcType=BIGINT},
+#{updateTime,jdbcType=BIGINT}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.orderingSystem.pojo.Customer">
+        UPDATE CUSTOMER
+        SET
+        `CUSTOMER_PHONE` = #{customerPhone},
+`CUSTOMER_NAME` = #{customerName},
+`CUSTOMER_ADDRESS` = #{customerAddress},
+`CUSTOMER_RTN` = #{customerRtn},
+`CREATE_TIME` = #{createTime},
+`UPDATE_TIME` = #{updateTime}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="com.orderingSystem.param.CustomerQueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM CUSTOMER
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="com.orderingSystem.param.CustomerQueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM CUSTOMER
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM CUSTOMER WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        `CUSTOMER_PHONE`,
+`CUSTOMER_NAME`,
+`CUSTOMER_ADDRESS`,
+`CUSTOMER_RTN`,
+`CREATE_TIME`,
+`UPDATE_TIME`
+    </sql>
+
+    <sql id="columnTable">
+        CUSTOMER.`CUSTOMER_PHONE`,
+CUSTOMER.`CUSTOMER_NAME`,
+CUSTOMER.`CUSTOMER_ADDRESS`,
+CUSTOMER.`CUSTOMER_RTN`,
+CUSTOMER.`CREATE_TIME`,
+CUSTOMER.`UPDATE_TIME`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>

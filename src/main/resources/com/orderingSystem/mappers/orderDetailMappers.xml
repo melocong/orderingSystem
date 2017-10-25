@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderingSystem.dao.OrderDetailDao">
+    <resultMap id="m" type="com.orderingSystem.pojo.OrderDetail">
+        <id property="id" column="ID" javaType="String" jdbcType="BIGINT"/>
+<result property="orderId" column="ORDER_ID" javaType="String" jdbcType="BIGINT"/>
+<result property="dishId" column="DISH_ID" javaType="String" jdbcType="BIGINT"/>
+<result property="dishType" column="DISH_TYPE" javaType="Character" jdbcType="CHAR"/>
+<result property="dishNum" column="DISH_NUM" javaType="Integer" jdbcType="BIGINT"/>
+<result property="notes" column="NOTES" javaType="String" jdbcType="VARCHAR"/>
+<result property="isPrint" column="IS_PRINT" javaType="Character" jdbcType="CHAR"/>
+
+    </resultMap>
+    <insert id="insert" parameterType="com.orderingSystem.pojo.OrderDetail">
+        INSERT INTO ORDER_DETAIL
+        (<include refid="column"/>)
+        VALUES (
+        #{orderId,jdbcType=BIGINT},
+#{dishId,jdbcType=BIGINT},
+#{dishType,jdbcType=CHAR},
+#{dishNum,jdbcType=BIGINT},
+#{notes,jdbcType=VARCHAR},
+#{isPrint,jdbcType=CHAR}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.orderingSystem.pojo.OrderDetail">
+        UPDATE ORDER_DETAIL
+        SET
+        `ORDER_ID` = #{orderId},
+`DISH_ID` = #{dishId},
+`DISH_TYPE` = #{dishType},
+`DISH_NUM` = #{dishNum},
+`NOTES` = #{notes},
+`IS_PRINT` = #{isPrint}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="com.orderingSystem.param.OrderDetailQueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM ORDER_DETAIL
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="com.orderingSystem.param.OrderDetailQueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM ORDER_DETAIL
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM ORDER_DETAIL WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        `ORDER_ID`,
+`DISH_ID`,
+`DISH_TYPE`,
+`DISH_NUM`,
+`NOTES`,
+`IS_PRINT`
+    </sql>
+
+    <sql id="columnTable">
+        ORDER_DETAIL.`ORDER_ID`,
+ORDER_DETAIL.`DISH_ID`,
+ORDER_DETAIL.`DISH_TYPE`,
+ORDER_DETAIL.`DISH_NUM`,
+ORDER_DETAIL.`NOTES`,
+ORDER_DETAIL.`IS_PRINT`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>

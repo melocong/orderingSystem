@@ -43,7 +43,7 @@ public class CreateMappersTool {
         String tableName = args[1];
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://182.254.217.209:3306/X?useUnicode=true&characterEncoding=UTF-8", "tomato", "tomatoegg");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://182.254.217.209:3306/orderingSystem?useUnicode=true&characterEncoding=UTF-8", "tomato", "tomatoegg");
         DatabaseMetaData metaData = connection.getMetaData();
         ResultSet rs = metaData.getColumns(null, null,
                 tableName, null);
@@ -309,10 +309,12 @@ public class CreateMappersTool {
         typeMap.put("BIGINT", "Long");
         typeMap.put("BOOLEAN", "Boolean");
         typeMap.put("BIT", "Boolean");
+        typeMap.put("DOUBLE", "Double");
         typeMap1.put("INT", "BIGINT");
         typeMap1.put("MEDIUMTEXT", "VARCHAR");
         typeMap1.put("TEXT", "VARCHAR");
         typeMap1.put("BOOLEAN", "TINYINT");
+        typeMap1.put("DOUBLE", "DOUBLE");
     }
 
     @Setter

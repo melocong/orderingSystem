@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderingSystem.dao.OrderDao">
+    <resultMap id="m" type="com.orderingSystem.pojo.Order">
+        <id property="id" column="ID" javaType="String" jdbcType="BIGINT"/>
+<result property="orderType" column="ORDER_TYPE" javaType="Character" jdbcType="CHAR"/>
+<result property="takeOutFee" column="TAKE_OUT_FEE" javaType="Double" jdbcType="DOUBLE"/>
+<result property="dishExpense" column="DISH_EXPENSE" javaType="Double" jdbcType="DOUBLE"/>
+<result property="tip" column="TIP" javaType="Double" jdbcType="DOUBLE"/>
+<result property="tax" column="TAX" javaType="Double" jdbcType="DOUBLE"/>
+<result property="prePay" column="PRE_PAY" javaType="Double" jdbcType="DOUBLE"/>
+<result property="preChange" column="PRE_CHANGE" javaType="Double" jdbcType="DOUBLE"/>
+<result property="totalFee" column="TOTAL_FEE" javaType="Double" jdbcType="DOUBLE"/>
+<result property="payType" column="PAY_TYPE" javaType="Character" jdbcType="CHAR"/>
+<result property="orderCai" column="ORDER_CAI" javaType="String" jdbcType="VARCHAR"/>
+<result property="orderReceiptNo" column="ORDER_RECEIPT_NO" javaType="String" jdbcType="VARCHAR"/>
+<result property="orderState" column="ORDER_STATE" javaType="Character" jdbcType="CHAR"/>
+<result property="isUrgent" column="IS_URGENT" javaType="Character" jdbcType="CHAR"/>
+<result property="custName" column="CUST_NAME" javaType="String" jdbcType="VARCHAR"/>
+<result property="custRtn" column="CUST_RTN" javaType="String" jdbcType="VARCHAR"/>
+<result property="staffId" column="STAFF_ID" javaType="String" jdbcType="BIGINT"/>
+<result property="custNum" column="CUST_NUM" javaType="Integer" jdbcType="BIGINT"/>
+<result property="floorType" column="FLOOR_TYPE" javaType="Character" jdbcType="CHAR"/>
+<result property="tableNum" column="TABLE_NUM" javaType="String" jdbcType="VARCHAR"/>
+<result property="createTime" column="CREATE_TIME" javaType="Long" jdbcType="BIGINT"/>
+<result property="updateTime" column="UPDATE_TIME" javaType="Long" jdbcType="BIGINT"/>
+<result property="payTime" column="PAY_TIME" javaType="Long" jdbcType="BIGINT"/>
+
+    </resultMap>
+    <insert id="insert" parameterType="com.orderingSystem.pojo.Order">
+        INSERT INTO ORDER
+        (<include refid="column"/>)
+        VALUES (
+        #{orderType,jdbcType=CHAR},
+#{takeOutFee,jdbcType=DOUBLE},
+#{dishExpense,jdbcType=DOUBLE},
+#{tip,jdbcType=DOUBLE},
+#{tax,jdbcType=DOUBLE},
+#{prePay,jdbcType=DOUBLE},
+#{preChange,jdbcType=DOUBLE},
+#{totalFee,jdbcType=DOUBLE},
+#{payType,jdbcType=CHAR},
+#{orderCai,jdbcType=VARCHAR},
+#{orderReceiptNo,jdbcType=VARCHAR},
+#{orderState,jdbcType=CHAR},
+#{isUrgent,jdbcType=CHAR},
+#{custName,jdbcType=VARCHAR},
+#{custRtn,jdbcType=VARCHAR},
+#{staffId,jdbcType=BIGINT},
+#{custNum,jdbcType=BIGINT},
+#{floorType,jdbcType=CHAR},
+#{tableNum,jdbcType=VARCHAR},
+#{createTime,jdbcType=BIGINT},
+#{updateTime,jdbcType=BIGINT},
+#{payTime,jdbcType=BIGINT}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.orderingSystem.pojo.Order">
+        UPDATE ORDER
+        SET
+        `ORDER_TYPE` = #{orderType},
+`TAKE_OUT_FEE` = #{takeOutFee},
+`DISH_EXPENSE` = #{dishExpense},
+`TIP` = #{tip},
+`TAX` = #{tax},
+`PRE_PAY` = #{prePay},
+`PRE_CHANGE` = #{preChange},
+`TOTAL_FEE` = #{totalFee},
+`PAY_TYPE` = #{payType},
+`ORDER_CAI` = #{orderCai},
+`ORDER_RECEIPT_NO` = #{orderReceiptNo},
+`ORDER_STATE` = #{orderState},
+`IS_URGENT` = #{isUrgent},
+`CUST_NAME` = #{custName},
+`CUST_RTN` = #{custRtn},
+`STAFF_ID` = #{staffId},
+`CUST_NUM` = #{custNum},
+`FLOOR_TYPE` = #{floorType},
+`TABLE_NUM` = #{tableNum},
+`CREATE_TIME` = #{createTime},
+`UPDATE_TIME` = #{updateTime},
+`PAY_TIME` = #{payTime}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="com.orderingSystem.param.OrderQueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM ORDER
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="com.orderingSystem.param.OrderQueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM ORDER
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM ORDER WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        `ORDER_TYPE`,
+`TAKE_OUT_FEE`,
+`DISH_EXPENSE`,
+`TIP`,
+`TAX`,
+`PRE_PAY`,
+`PRE_CHANGE`,
+`TOTAL_FEE`,
+`PAY_TYPE`,
+`ORDER_CAI`,
+`ORDER_RECEIPT_NO`,
+`ORDER_STATE`,
+`IS_URGENT`,
+`CUST_NAME`,
+`CUST_RTN`,
+`STAFF_ID`,
+`CUST_NUM`,
+`FLOOR_TYPE`,
+`TABLE_NUM`,
+`CREATE_TIME`,
+`UPDATE_TIME`,
+`PAY_TIME`
+    </sql>
+
+    <sql id="columnTable">
+        ORDER.`ORDER_TYPE`,
+ORDER.`TAKE_OUT_FEE`,
+ORDER.`DISH_EXPENSE`,
+ORDER.`TIP`,
+ORDER.`TAX`,
+ORDER.`PRE_PAY`,
+ORDER.`PRE_CHANGE`,
+ORDER.`TOTAL_FEE`,
+ORDER.`PAY_TYPE`,
+ORDER.`ORDER_CAI`,
+ORDER.`ORDER_RECEIPT_NO`,
+ORDER.`ORDER_STATE`,
+ORDER.`IS_URGENT`,
+ORDER.`CUST_NAME`,
+ORDER.`CUST_RTN`,
+ORDER.`STAFF_ID`,
+ORDER.`CUST_NUM`,
+ORDER.`FLOOR_TYPE`,
+ORDER.`TABLE_NUM`,
+ORDER.`CREATE_TIME`,
+ORDER.`UPDATE_TIME`,
+ORDER.`PAY_TIME`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>

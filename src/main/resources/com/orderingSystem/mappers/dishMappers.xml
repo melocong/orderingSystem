@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderingSystem.dao.DishDao">
+    <resultMap id="m" type="com.orderingSystem.pojo.Dish">
+        <id property="id" column="ID" javaType="String" jdbcType="BIGINT"/>
+<result property="dishTypeId" column="DISH_TYPE_ID" javaType="String" jdbcType="BIGINT"/>
+<result property="dishType" column="DISH_TYPE" javaType="Character" jdbcType="CHAR"/>
+<result property="dishName" column="DISH_NAME" javaType="String" jdbcType="VARCHAR"/>
+<result property="dishPrice" column="DISH_PRICE" javaType="Double" jdbcType="DOUBLE"/>
+<result property="dishState" column="DISH_STATE" javaType="Character" jdbcType="CHAR"/>
+
+    </resultMap>
+    <insert id="insert" parameterType="com.orderingSystem.pojo.Dish">
+        INSERT INTO DISH
+        (<include refid="column"/>)
+        VALUES (
+        #{dishTypeId,jdbcType=BIGINT},
+#{dishType,jdbcType=CHAR},
+#{dishName,jdbcType=VARCHAR},
+#{dishPrice,jdbcType=DOUBLE},
+#{dishState,jdbcType=CHAR}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.orderingSystem.pojo.Dish">
+        UPDATE DISH
+        SET
+        `DISH_TYPE_ID` = #{dishTypeId},
+`DISH_TYPE` = #{dishType},
+`DISH_NAME` = #{dishName},
+`DISH_PRICE` = #{dishPrice},
+`DISH_STATE` = #{dishState}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="com.orderingSystem.param.DishQueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM DISH
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="com.orderingSystem.param.DishQueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM DISH
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM DISH WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        `DISH_TYPE_ID`,
+`DISH_TYPE`,
+`DISH_NAME`,
+`DISH_PRICE`,
+`DISH_STATE`
+    </sql>
+
+    <sql id="columnTable">
+        DISH.`DISH_TYPE_ID`,
+DISH.`DISH_TYPE`,
+DISH.`DISH_NAME`,
+DISH.`DISH_PRICE`,
+DISH.`DISH_STATE`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>

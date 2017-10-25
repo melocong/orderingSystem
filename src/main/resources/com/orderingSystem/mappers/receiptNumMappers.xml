@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderingSystem.dao.ReceiptNumDao">
+    <resultMap id="m" type="com.orderingSystem.pojo.ReceiptNum">
+        <id property="id" column="ID" javaType="String" jdbcType="BIGINT"/>
+<result property="startNum" column="START_NUM" javaType="Integer" jdbcType="BIGINT"/>
+<result property="endNum" column="END_NUM" javaType="Integer" jdbcType="BIGINT"/>
+
+    </resultMap>
+    <insert id="insert" parameterType="com.orderingSystem.pojo.ReceiptNum">
+        INSERT INTO RECEIPT_NUM
+        (<include refid="column"/>)
+        VALUES (
+        #{startNum,jdbcType=BIGINT},
+#{endNum,jdbcType=BIGINT}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.orderingSystem.pojo.ReceiptNum">
+        UPDATE RECEIPT_NUM
+        SET
+        `START_NUM` = #{startNum},
+`END_NUM` = #{endNum}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="com.orderingSystem.param.ReceiptNumQueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM RECEIPT_NUM
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="com.orderingSystem.param.ReceiptNumQueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM RECEIPT_NUM
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM RECEIPT_NUM WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        `START_NUM`,
+`END_NUM`
+    </sql>
+
+    <sql id="columnTable">
+        RECEIPT_NUM.`START_NUM`,
+RECEIPT_NUM.`END_NUM`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>

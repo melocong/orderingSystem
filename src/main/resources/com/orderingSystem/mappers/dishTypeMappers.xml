@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orderingSystem.dao.DishTypeDao">
+    <resultMap id="m" type="com.orderingSystem.pojo.DishType">
+        <id property="id" column="ID" javaType="String" jdbcType="BIGINT"/>
+<result property="name" column="NAME" javaType="Character" jdbcType="CHAR"/>
+<result property="type" column="TYPE" javaType="Character" jdbcType="CHAR"/>
+
+    </resultMap>
+    <insert id="insert" parameterType="com.orderingSystem.pojo.DishType">
+        INSERT INTO DISH_TYPE
+        (<include refid="column"/>)
+        VALUES (
+        #{name,jdbcType=CHAR},
+#{type,jdbcType=CHAR}
+        )
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.orderingSystem.pojo.DishType">
+        UPDATE DISH_TYPE
+        SET
+        `NAME` = #{name},
+`TYPE` = #{type}
+        WHERE ID = #{id}
+    </update>
+
+    <select id="query" parameterType="com.orderingSystem.param.DishTypeQueryParam" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM DISH_TYPE
+        <include refid="where"/>
+        <include refid="basic"/>
+    </select>
+
+    <select id="queryCount" parameterType="com.orderingSystem.param.DishTypeQueryParam" resultType="Long">
+        SELECT COUNT(0)
+        FROM DISH_TYPE
+        <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM DISH_TYPE WHERE ID = #{id}
+    </delete>
+
+    <sql id="column">
+        `NAME`,
+`TYPE`
+    </sql>
+
+    <sql id="columnTable">
+        DISH_TYPE.`NAME`,
+DISH_TYPE.`TYPE`
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="id != null">ID = #{id}</if>
+        </where>
+    </sql>
+
+    <sql id="basic">
+        <if test="column != null">
+            ORDER BY ${column} ${sort}
+        </if>
+        <if test="pageNo != -1 and limit  == -1" >
+            LIMIT #{startIndex},#{pageSize}
+        </if>
+        <if test="limit != -1">
+            LIMIT #{limit}
+        </if>
+        <if test="lock">
+            <if test="lockMode == 0">
+                FOR UPDATE
+            </if>
+            <if test="lockMode == 1">
+                LOCK IN SHARE MODE
+            </if>
+        </if>
+    </sql>
+</mapper>
