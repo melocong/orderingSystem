@@ -44,4 +44,10 @@ public class StaffService {
         return page;
     }
 
+    public Staff queryByLoginName(String loginName){
+
+        return staffDao.queryByLoginName(loginName);
+
+    }
+
 }

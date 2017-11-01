@@ -16,4 +16,6 @@ public interface StaffDao {
     List<Staff>query(StaffQueryParam param);
 
     long queryCount(StaffQueryParam param);
+
+    Staff queryByLoginName(String loginName);
 }
