@@ -4,8 +4,10 @@ import com.orderingSystem.pojo.Staff;
 import com.orderingSystem.param.StaffQueryParam;
 import java.util.List;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
 
 @Repository
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public interface StaffDao {
     void insert(Staff staff);
 

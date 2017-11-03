@@ -5,9 +5,13 @@
 package com.orderingSystem.view;
 
 
+import com.orderingSystem.EasyApplicationContext;
 import com.orderingSystem.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.StringUtils;
 
 import java.awt.*;
@@ -17,12 +21,10 @@ import javax.swing.*;
 /**
  * @author 123
  */
-@Controller
 public class loginFrame extends JFrame {
 
 
-    @Autowired
-    public StaffService staffService;
+    private StaffService staffService;
 
 
     public loginFrame() {
@@ -58,6 +60,9 @@ public class loginFrame extends JFrame {
             JOptionPane.showMessageDialog(this,"请输入用户名","提示",JOptionPane.INFORMATION_MESSAGE);
         }else {
             if (staffBtn.isSelected()){
+                ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
+                //获得bean
+                staffService=ctx.getBean(StaffService.class);
                 staffService.queryByLoginName(loginName);
 
 
@@ -101,6 +106,7 @@ public class loginFrame extends JFrame {
         staffBtn.setText("\u5458\u5de5");
         staffBtn.setSelected(true);
         staffBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 staffBtnActionPerformed(e);
             }
@@ -121,6 +127,7 @@ public class loginFrame extends JFrame {
         //---- loginBtn ----
         loginBtn.setText("\u767b\u5f55");
         loginBtn.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 loginBtnActionPerformed(e);
             }
