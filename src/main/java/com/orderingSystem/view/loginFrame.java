@@ -5,13 +5,10 @@
 package com.orderingSystem.view;
 
 
-import com.orderingSystem.EasyApplicationContext;
 import com.orderingSystem.service.StaffService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.orderingSystem.util.ApplicationContextUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.StringUtils;
 
 import java.awt.*;
@@ -60,9 +57,8 @@ public class loginFrame extends JFrame {
             JOptionPane.showMessageDialog(this,"请输入用户名","提示",JOptionPane.INFORMATION_MESSAGE);
         }else {
             if (staffBtn.isSelected()){
-                ApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
                 //获得bean
-                staffService=ctx.getBean(StaffService.class);
+                staffService= ApplicationContextUtil.getApplicationContext().getBean(StaffService.class);
                 staffService.queryByLoginName(loginName);
 
 
