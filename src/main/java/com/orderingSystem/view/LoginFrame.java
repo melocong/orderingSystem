@@ -5,6 +5,7 @@
 package com.orderingSystem.view;
 
 
+import com.orderingSystem.pojo.Staff;
 import com.orderingSystem.service.StaffService;
 import com.orderingSystem.util.ApplicationContextUtil;
 import org.springframework.context.ApplicationContext;
@@ -18,13 +19,14 @@ import javax.swing.*;
 /**
  * @author 123
  */
-public class loginFrame extends JFrame {
+public class LoginFrame extends JFrame {
 
 
     private StaffService staffService;
 
 
-    public loginFrame() {
+    public LoginFrame() {
+        staffService = ApplicationContextUtil.getApplicationContext().getBean(StaffService.class);
         initComponents();
 
     }
@@ -53,13 +55,44 @@ public class loginFrame extends JFrame {
     private void loginBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
         String loginName = nameText.getText().toString();
-        if (StringUtils.isEmpty(loginName)){
-            JOptionPane.showMessageDialog(this,"请输入用户名","提示",JOptionPane.INFORMATION_MESSAGE);
-        }else {
-            if (staffBtn.isSelected()){
+        if (StringUtils.isEmpty(loginName)) {
+            JOptionPane.showMessageDialog(this, "请输入用户名", "提示", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            if (staffBtn.isSelected()) {
                 //获得bean
-                staffService= ApplicationContextUtil.getApplicationContext().getBean(StaffService.class);
-                staffService.queryByLoginName(loginName);
+                Staff staff = staffService.queryByLoginName(loginName);
+                if (staff == null) {
+                    JOptionPane.showMessageDialog(this, "用户不存在", "错误", JOptionPane.WARNING_MESSAGE);
+                }else {
+
+                    if (staff.getStaffType() == Staff.STAFFF_TYPE_CASHIER){
+                        //收银员
+                        JOptionPane.showMessageDialog(this, "收银员", "错误", JOptionPane.WARNING_MESSAGE);
+                    }else  if (staff.getStaffType() == Staff.STAFFF_TYPE_WAITER){
+                        //跑堂
+                        JOptionPane.showMessageDialog(this, "跑堂", "错误", JOptionPane.WARNING_MESSAGE);
+
+                    }else {
+                        JOptionPane.showMessageDialog(this, "用户不存在", "错误", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+
+            } else {
+                String password = String.valueOf(pwdField.getPassword());
+                if (StringUtils.isEmpty(password)){
+                    JOptionPane.showMessageDialog(this, "密码不能为空", "提示", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    //获得bean
+                    staffService = ApplicationContextUtil.getApplicationContext().getBean(StaffService.class);
+                    Staff staff = staffService.queryByLoginName(loginName);
+                    if (staff == null || staff.getStaffType() != Staff.STAFFF_TYPE_ADMIN || !password.equals(staff.getPassword())){
+                        JOptionPane.showMessageDialog(this, "用户或密码错误", "错误", JOptionPane.WARNING_MESSAGE);
+                    }else {
+                        //管理员
+                        JOptionPane.showMessageDialog(this, "管理员", "错误", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
 
 
             }

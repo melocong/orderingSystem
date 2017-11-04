@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 
 @Service
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class StaffService {
 
     @Autowired

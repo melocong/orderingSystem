@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 
 @Repository
-@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public interface StaffDao {
     void insert(Staff staff);
 
