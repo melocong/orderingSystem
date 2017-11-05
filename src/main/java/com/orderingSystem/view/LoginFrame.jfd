@@ -9,6 +9,7 @@ new FormModel {
 			name: "this"
 			"alwaysOnTop": true
 			"resizable": false
+			addEvent( new FormEvent( "java.awt.event.KeyListener", "keyReleased", "thisKeyReleased", true ) )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "titleLabel"
 				"text": "xxxx点餐系统"

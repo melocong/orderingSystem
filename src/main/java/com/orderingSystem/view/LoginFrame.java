@@ -23,10 +23,14 @@ public class LoginFrame extends JFrame {
 
 
     private StaffService staffService;
+    private JLabel pwdLabel = new JLabel();
+    private JPasswordField pwdField = new JPasswordField();
 
 
     public LoginFrame() {
         staffService = ApplicationContextUtil.getApplicationContext().getBean(StaffService.class);
+        //设置焦点 这样才能获取到监听事件
+        this.setFocusable(true);
         initComponents();
 
     }
@@ -54,6 +58,12 @@ public class LoginFrame extends JFrame {
 
     private void loginBtnActionPerformed(ActionEvent e) {
         // TODO add your code here
+        checkLogin();
+
+    }
+
+    //登录校验
+    private void checkLogin() {
         String loginName = nameText.getText().toString();
         if (StringUtils.isEmpty(loginName)) {
             JOptionPane.showMessageDialog(this, "请输入用户名", "提示", JOptionPane.WARNING_MESSAGE);
@@ -64,33 +74,34 @@ public class LoginFrame extends JFrame {
                 Staff staff = staffService.queryByLoginName(loginName);
                 if (staff == null) {
                     JOptionPane.showMessageDialog(this, "用户不存在", "错误", JOptionPane.WARNING_MESSAGE);
-                }else {
+                } else {
 
-                    if (staff.getStaffType() == Staff.STAFFF_TYPE_CASHIER){
+                    if (staff.getStaffType() == Staff.STAFFF_TYPE_CASHIER) {
                         //收银员
                         JOptionPane.showMessageDialog(this, "收银员", "错误", JOptionPane.WARNING_MESSAGE);
-                    }else  if (staff.getStaffType() == Staff.STAFFF_TYPE_WAITER){
+                    } else if (staff.getStaffType() == Staff.STAFFF_TYPE_WAITER) {
                         //跑堂
                         JOptionPane.showMessageDialog(this, "跑堂", "错误", JOptionPane.WARNING_MESSAGE);
 
-                    }else {
+                    } else {
                         JOptionPane.showMessageDialog(this, "用户不存在", "错误", JOptionPane.WARNING_MESSAGE);
                     }
                 }
 
             } else {
                 String password = String.valueOf(pwdField.getPassword());
-                if (StringUtils.isEmpty(password)){
+                if (StringUtils.isEmpty(password)) {
                     JOptionPane.showMessageDialog(this, "密码不能为空", "提示", JOptionPane.WARNING_MESSAGE);
-                }else {
+                } else {
                     //获得bean
                     staffService = ApplicationContextUtil.getApplicationContext().getBean(StaffService.class);
                     Staff staff = staffService.queryByLoginName(loginName);
-                    if (staff == null || staff.getStaffType() != Staff.STAFFF_TYPE_ADMIN || !password.equals(staff.getPassword())){
+                    if (staff == null || staff.getStaffType() != Staff.STAFFF_TYPE_ADMIN || !password.equals(staff.getPassword())) {
                         JOptionPane.showMessageDialog(this, "用户或密码错误", "错误", JOptionPane.WARNING_MESSAGE);
-                    }else {
+                    } else {
                         //管理员
                         AdminFrame adminFrame = new AdminFrame();
+                        adminFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         this.dispose();
                     }
                 }
@@ -99,7 +110,14 @@ public class LoginFrame extends JFrame {
             }
         }
 
+    }
 
+
+    private void thisKeyReleased(KeyEvent e) {
+        // TODO add your code here
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            checkLogin();
+        }
     }
 
     private void initComponents() {
@@ -110,12 +128,16 @@ public class LoginFrame extends JFrame {
         staffBtn = new JRadioButton();
         adminBtn = new JRadioButton();
         loginBtn = new JButton();
-        pwdLabel = new JLabel();
-        pwdField = new JPasswordField();
 
         //======== this ========
         setAlwaysOnTop(true);
         setResizable(false);
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                thisKeyReleased(e);
+            }
+        });
         Container contentPane = getContentPane();
         contentPane.setLayout(null);
 
@@ -136,7 +158,6 @@ public class LoginFrame extends JFrame {
         staffBtn.setText("\u5458\u5de5");
         staffBtn.setSelected(true);
         staffBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 staffBtnActionPerformed(e);
             }
@@ -157,7 +178,6 @@ public class LoginFrame extends JFrame {
         //---- loginBtn ----
         loginBtn.setText("\u767b\u5f55");
         loginBtn.addActionListener(new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 loginBtnActionPerformed(e);
             }
@@ -183,7 +203,5 @@ public class LoginFrame extends JFrame {
     private JRadioButton staffBtn;
     private JRadioButton adminBtn;
     private JButton loginBtn;
-    private JLabel pwdLabel;
-    private JPasswordField pwdField;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
