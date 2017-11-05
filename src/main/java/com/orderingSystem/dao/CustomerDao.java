@@ -9,11 +9,13 @@ import org.springframework.stereotype.Repository;
 public interface CustomerDao {
     void insert(Customer customer);
 
-    void update(Customer customer);
+    int update(Customer customer);
 
     void delete(String id);
 
     List<Customer>query(CustomerQueryParam param);
 
     long queryCount(CustomerQueryParam param);
+
+    Customer queryCustInfoByTeleNo(String teleNo);
 }
