@@ -17,7 +17,7 @@ private String customerName;
 //地址
 private String customerAddress;
 //RTN
-private Character customerRtn;
+private String customerRtn;
 //创建时间
 private Long createTime;
 //更新时间

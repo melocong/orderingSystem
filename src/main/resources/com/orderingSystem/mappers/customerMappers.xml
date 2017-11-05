@@ -21,23 +21,22 @@
 #{customerName,jdbcType=VARCHAR},
 #{customerAddress,jdbcType=VARCHAR},
 #{customerRtn,jdbcType=CHAR},
-#{createTime,jdbcType=BIGINT},
-#{updateTime,jdbcType=BIGINT}
+        UNIX_TIMESTAMP()*1000,
+        UNIX_TIMESTAMP()*1000
         )
         <selectKey keyProperty="id" resultType="String" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
 
-    <update id="update" parameterType="com.orderingSystem.pojo.Customer">
+    <update id="update" parameterType="com.orderingSystem.pojo.Customer" >
         UPDATE CUSTOMER
         SET
         `CUSTOMER_PHONE` = #{customerPhone},
 `CUSTOMER_NAME` = #{customerName},
 `CUSTOMER_ADDRESS` = #{customerAddress},
 `CUSTOMER_RTN` = #{customerRtn},
-`CREATE_TIME` = #{createTime},
-`UPDATE_TIME` = #{updateTime}
+`UPDATE_TIME` = UNIX_TIMESTAMP()*1000
         WHERE ID = #{id}
     </update>
 
@@ -58,6 +57,13 @@
     <delete id="delete" parameterType="String">
         DELETE FROM CUSTOMER WHERE ID = #{id}
     </delete>
+
+    <select id="queryCustInfoByTeleNo" parameterType="java.lang.String" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM CUSTOMER
+        WHERE CUSTOMERPHONE=#{teleNo} limit 1
+    </select>
 
     <sql id="column">
         `CUSTOMER_PHONE`,

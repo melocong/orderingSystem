@@ -26,8 +26,8 @@ public class CustomerService {
         customerDao.delete(id);
     }
 
-    public void update(Customer customer){
-        customerDao.update(customer);
+    public int update(Customer customer){
+        return customerDao.update(customer);
     }
 
 
@@ -42,6 +42,16 @@ public class CustomerService {
         }
         page.setResults(customerDao.query(param));
         return page;
+    }
+
+    /**
+     * 根据手机号去查找客户信息
+     * @param teleNo
+     * @return
+     */
+    public Customer queryCustInfoByTeleNo(String teleNo){
+        Customer customerInfo=customerDao.queryCustInfoByTeleNo(teleNo);
+        return customerInfo;
     }
 
 }
