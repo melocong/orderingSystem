@@ -58,6 +58,15 @@
         <include refid="where"/>
     </select>
 
+    <select id="queryByLoginName" parameterType="String" resultMap="m">
+        SELECT ID,
+        <include refid="column"/>
+        FROM STAFF
+        where LOGIN_NAME = #{loginName}
+        ORDER BY ID
+        LIMIT 1
+    </select>
+
     <delete id="delete" parameterType="String">
         DELETE FROM STAFF WHERE ID = #{id}
     </delete>

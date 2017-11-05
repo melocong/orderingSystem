@@ -6,6 +6,7 @@ import com.orderingSystem.param.StaffQueryParam;
 import com.orderingSystem.base.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
 
 @Service
 public class StaffService {
@@ -42,6 +43,12 @@ public class StaffService {
         }
         page.setResults(staffDao.query(param));
         return page;
+    }
+
+    public Staff queryByLoginName(String loginName){
+
+        return staffDao.queryByLoginName(loginName);
+
     }
 
 }

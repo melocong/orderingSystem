@@ -4,6 +4,7 @@ import com.orderingSystem.pojo.Staff;
 import com.orderingSystem.param.StaffQueryParam;
 import java.util.List;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ContextConfiguration;
 
 @Repository
 public interface StaffDao {
@@ -16,4 +17,6 @@ public interface StaffDao {
     List<Staff>query(StaffQueryParam param);
 
     long queryCount(StaffQueryParam param);
+
+    Staff queryByLoginName(String loginName);
 }

@@ -8,6 +8,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Staff{
+
+
+    //类型 '员工类型：0：系统管理员 1：跑堂 2：收银 3：外卖人员'
+    public static final char STAFFF_TYPE_ADMIN= '0';
+    public static final char STAFFF_TYPE_WAITER = '1';
+    public static final char STAFFF_TYPE_CASHIER = '2';
+    public static final char STAFFF_TYPE_DELIVER = '3';
+
     //id，使用自增长或特殊算法获得。
 private String id;
 //员工名称
