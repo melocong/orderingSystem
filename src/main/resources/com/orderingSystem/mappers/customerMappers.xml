@@ -8,7 +8,7 @@
 <result property="customerPhone" column="CUSTOMER_PHONE" javaType="String" jdbcType="VARCHAR"/>
 <result property="customerName" column="CUSTOMER_NAME" javaType="String" jdbcType="VARCHAR"/>
 <result property="customerAddress" column="CUSTOMER_ADDRESS" javaType="String" jdbcType="VARCHAR"/>
-<result property="customerRtn" column="CUSTOMER_RTN" javaType="Character" jdbcType="CHAR"/>
+<result property="customerRtn" column="CUSTOMER_RTN" javaType="String" jdbcType="VARCHAR"/>
 <result property="createTime" column="CREATE_TIME" javaType="Long" jdbcType="BIGINT"/>
 <result property="updateTime" column="UPDATE_TIME" javaType="Long" jdbcType="BIGINT"/>
 

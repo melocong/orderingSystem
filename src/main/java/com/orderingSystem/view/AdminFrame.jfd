@@ -3,44 +3,78 @@ JFDML JFormDesigner: "6.0.2.0.116" Java: "1.8.0_152-release" encoding: "UTF-8"
 new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
-		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
-			"autoSize": false
-		} ) {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
 			name: "this"
+			"resizable": false
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "viewPanel"
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "menuBar"
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "staffMenu"
 					"text": "员工管理"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "addStaff"
+						"text": "添加员工信息"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "modifyStaff"
+						"text": "修改员工信息"
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "dishTpyeMenu"
 					"text": "菜单分类管理"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "addType"
+						"text": "增加分类"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "modifyType"
+						"text": "修改分类"
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "dishMenu"
 					"text": "菜单管理"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "dishAdd"
+						"text": "添加菜单"
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "modifyDish"
+						"text": "修改菜单"
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "orderMenu"
 					"text": "订单管理"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "orderManage"
+						"text": "订单管理"
+					} )
 				} )
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-					name: "receiptMenu"
-					"text": "发票号"
-				} )
-				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-					name: "pwdMenu"
-					"text": "修改密码"
-				} )
-				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
-					name: "outMenu"
-					"text": "退出"
+					name: "otherMenu"
+					"text": "其他"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "addReceipt"
+						"text": "设置发票"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "addReceiptActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "modifyPassword"
+						"text": "修改密码"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "modifyPasswordActionPerformed", true ) )
+					} )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 1195, 750 )
+			"size": new java.awt.Dimension( 1115, 615 )
 		} )
 	}
 }
