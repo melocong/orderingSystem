@@ -90,7 +90,8 @@ public class LoginFrame extends JFrame {
                         JOptionPane.showMessageDialog(this, "用户或密码错误", "错误", JOptionPane.WARNING_MESSAGE);
                     }else {
                         //管理员
-                        JOptionPane.showMessageDialog(this, "管理员", "错误", JOptionPane.WARNING_MESSAGE);
+                        AdminFrame adminFrame = new AdminFrame();
+                        this.dispose();
                     }
                 }
 
